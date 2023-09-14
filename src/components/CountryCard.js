@@ -1,15 +1,10 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const CountryCard = ({country}) => {
-  const navigate = useNavigate()
-
-  const onCountryClick = () => {
-    navigate(`/name/${country.name.common}`)
-  }
-
   return (
-    <button className='h-[325px] shadow-lg shadow-slate-200' onClick={onCountryClick}>
+    <Link to={`/name/${country.name.common}`}>
+      <div className='h-[325px] shadow-lg shadow-slate-200'>
         <img src={country.flags.svg} alt={country.flags.alt} className='h-[48%] object-cover' />
         <div className='p-5'>
             <h3 className='font-bold text-lg mb-3'>{country.name.common}</h3>
@@ -20,7 +15,8 @@ const CountryCard = ({country}) => {
                 <div><span className='font-semibold'>Capital: </span><span>{country.capital}</span></div>
             </div>
         </div>
-    </button>
+      </div>
+    </Link>
   )
 }
 

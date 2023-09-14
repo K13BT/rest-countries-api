@@ -1,13 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 
-const SearchFilter = () => {
+const SearchFilter = ({onSearch}) => {
+  const [search, setSearch] = useState('')
+
+  const onChange = (e) => {
+    setSearch(e.target.value)
+    onSearch(e.target.value)
+  }
+
   return (
     <div className='flex justify-between items-center m-20'>
         <div className='shadow-lg shadow-slate-200 px-8 py-5 w-96'>
             <FontAwesomeIcon icon={faMagnifyingGlass} className='mr-5'/>
-            <input placeholder='Search for a country...' className=''/>
+            <input placeholder='Search for a country...' value={search} onChange={onChange}/>
         </div>
 
         

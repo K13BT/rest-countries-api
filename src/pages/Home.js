@@ -1,24 +1,17 @@
 import { useState, useEffect } from "react";
-import { fetchCountries } from "../Global/fetch";
+import { getAllCountries } from "../Global/fetch";
 import CountryCard from "../components/CountryCard";
 import SearchFilter from "../components/SearchFilter";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { searchCountries } from "../Global/fetch";
 
 const Home = () => {
     const [countries, setCountries] = useState([])
-    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
-        setLoading(true)
-
         const fetchedCountries = async () => {
             try {
-                const fetch = await fetchCountries('all')
+                const fetch = await getAllCountries('all')
                 setCountries(fetch)
-                console.log(fetch)
-
-                setLoading(false)
             } catch (err) {
                 console.log(err)
             }
@@ -35,10 +28,20 @@ const Home = () => {
         )
     }
 
+    // Search
+    const onSearch = async (search) => {
+        try {
+            const searchedCountries = await searchCountries(search)
+            setCountries(searchedCountries)
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
   return (
     <div className="relative">
-        <SearchFilter />
-        {loading || !countries && <FontAwesomeIcon icon={faSpinner} spin className="h-20 absolute left-1/2 -translate-x-1/2" />}
+        <SearchFilter onSearch={onSearch}/>
+
         {countries && <RenderCountries />}
     </div>
   )

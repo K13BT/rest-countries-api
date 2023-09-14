@@ -3,8 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import SingleCountryInfo from '../components/SingleCountryInfo'
 import { faArrowLeftLong } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { fetchSingleCountry } from '../Global/fetchFunc'
-import { fetchCountryByCode } from '../Global/fetchFunc'
+import { getCountryNameByCode, getSingleCountry } from '../Global/fetch'
 
 const SingleCountry = () => {
     const [country, setCountry] = useState()
@@ -15,18 +14,18 @@ const SingleCountry = () => {
     useEffect(() => {
         const fetchCountry = async () => {
             try {
-                const fetchedCountry = await fetchSingleCountry(name)
+                const fetchedCountry = await getSingleCountry(name)
                 setCountry(fetchedCountry)
 
-                const fetchedBorders = fetchedCountry.borders
-                
-                const borderNames = await Promise.all(fetchedBorders.map(async border => {
-                    const countryByCode = await fetchCountryByCode(border)
-                    return countryByCode.name.common
-                }))
-
-                setBorders(borderNames)
-                
+                if (fetchedCountry.borders) {
+                    const borderNames = await Promise.all((fetchedCountry.borders).map(async border => {
+                        const countryName = await getCountryNameByCode(border)
+                        return countryName.name.common
+                    }))
+                    setBorders(borderNames)          
+                } else {
+                    return 
+                }
             } catch (err) {
                 console.log(err)
             }
