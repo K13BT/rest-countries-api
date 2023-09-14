@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getAllCountries } from "../Global/fetch";
+import { filterByRegion, getAllCountries } from "../Global/fetch";
 import CountryCard from "../components/CountryCard";
 import SearchFilter from "../components/SearchFilter";
 import { searchCountries } from "../Global/fetch";
@@ -38,9 +38,19 @@ const Home = () => {
         }
     }
 
+    // Filter
+    const onFilter = async (region) => {
+        try {
+            const filteredCountries = await filterByRegion(region)
+            setCountries(filteredCountries)
+        } catch (err) {
+            console.log(err)
+        }
+    } 
+
   return (
     <div className="relative">
-        <SearchFilter onSearch={onSearch}/>
+        <SearchFilter onSearch={onSearch} onFilter={onFilter} />
 
         {countries && <RenderCountries />}
     </div>

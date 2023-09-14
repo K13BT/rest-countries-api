@@ -29,6 +29,10 @@ export const getAllCountries = async () => {
 
 export const filterByRegion = async (region) => {
     try {
+        if (region === 'all') {
+            return await getAllCountries()
+        }
+
         const fetchByRegion = await fetchCountries(`${BASE_URL}/region/${region}/?fields=capital,flags,name,population,region`)
         return fetchByRegion
     } catch (err) {
@@ -41,9 +45,7 @@ export const searchCountries = async (name) => {
         if (name === '') {
             return await getAllCountries()
         }
-
         const searchCountries = await fetchCountries(`${BASE_URL}/name/${name}/?fields=flags,name,currencies,tld,borders,population,region,subregion,capital,languages`)
-        console.log(searchCountries)
 
         return searchCountries
     } catch (err) {
