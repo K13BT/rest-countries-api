@@ -3,18 +3,19 @@ import { filterByRegion, getAllCountries } from "../Global/fetch";
 import CountryCard from "../components/CountryCard";
 import SearchFilter from "../components/SearchFilter";
 import { searchCountries } from "../Global/fetch";
+import NoCountryFound from "../components/NoCountryFound";
+import Loading from "../components/Loading";
 
 const Home = () => {
     const [countries, setCountries] = useState([])
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         const fetchedCountries = async () => {
-            try {
-                const fetch = await getAllCountries('all')
-                setCountries(fetch)
-            } catch (err) {
-                console.log(err)
-            }
+            setLoading(true)
+            const fetch = await getAllCountries('all')
+            setLoading(false)
+            setCountries(fetch)
         }
         fetchedCountries()
     }, [])
@@ -30,29 +31,21 @@ const Home = () => {
 
     // Search
     const onSearch = async (search) => {
-        try {
-            const searchedCountries = await searchCountries(search)
-            setCountries(searchedCountries)
-        } catch (err) {
-            console.log(err)
-        }
+        const searchedCountries = await searchCountries(search)
+        setCountries(searchedCountries)
     }
 
     // Filter
     const onFilter = async (region) => {
-        try {
-            const filteredCountries = await filterByRegion(region)
-            setCountries(filteredCountries)
-        } catch (err) {
-            console.log(err)
-        }
+        const filteredCountries = await filterByRegion(region)
+        setCountries(filteredCountries)
     } 
 
   return (
     <div className="relative">
         <SearchFilter onSearch={onSearch} onFilter={onFilter} />
 
-        {countries && <RenderCountries />}
+        {loading ? <Loading /> : countries.length === 0 ? <NoCountryFound /> : <RenderCountries />}
     </div>
   )
 }

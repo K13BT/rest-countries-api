@@ -4,30 +4,31 @@ import SingleCountryInfo from '../components/SingleCountryInfo'
 import { faArrowLeftLong } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { getCountryNameByCode, getSingleCountry } from '../Global/fetch'
+import NoCountryFound from '../components/NoCountryFound'
+import Loading from '../components/Loading'
 
 const SingleCountry = () => {
-    const [country, setCountry] = useState()
+    const [country, setCountry] = useState({})
     const [borders, setBorders] = useState([])
+    const [loading, setLoading] = useState(false)
     const { name } = useParams() 
     const navigate = useNavigate()
 
     useEffect(() => {
         const fetchCountry = async () => {
-            try {
-                const fetchedCountry = await getSingleCountry(name)
-                setCountry(fetchedCountry)
+            setLoading(true)
+            const fetchedCountry = await getSingleCountry(name)
+            setLoading(false)
+            setCountry(fetchedCountry)
 
-                if (fetchedCountry.borders) {
-                    const borderNames = await Promise.all((fetchedCountry.borders).map(async border => {
-                        const countryName = await getCountryNameByCode(border)
-                        return countryName.name.common
-                    }))
-                    setBorders(borderNames)          
-                } else {
-                    return 
-                }
-            } catch (err) {
-                console.log(err)
+            if (fetchedCountry.borders) {
+                const borderNames = await Promise.all((fetchedCountry.borders).map(async border => {
+                    const countryName = await getCountryNameByCode(border)
+                    return countryName.name.common
+                }))
+                setBorders(borderNames)          
+            } else {
+                return 
             }
         }
         fetchCountry()
@@ -42,7 +43,7 @@ const SingleCountry = () => {
             Back
         </button>
 
-        {country && (
+        {loading ? <Loading /> : Object.keys(country).length === 0 ? <NoCountryFound /> : (
             <main className='grid grid-cols-2 gap-28'>
                 <img src={country.flags.svg} alt={country.flags.alt} className='w-full' />
 

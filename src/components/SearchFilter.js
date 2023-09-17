@@ -20,12 +20,10 @@ const SearchFilter = ({onSearch, onFilter}) => {
     <div className='flex justify-between items-center m-20'>
         <div className='shadow-lg shadow-slate-200 px-8 py-5 w-96'>
             <FontAwesomeIcon icon={faMagnifyingGlass} className='mr-5'/>
-            <input placeholder='Search for a country...' value={search} onChange={onChange}/>
+            <input placeholder='Search for a country...' value={search} onChange={onChange} className='focus:outline-none'/>
         </div>
 
-        
-        <select className='shadow-2' value={filter} onChange={onRegionChange} >
-            <option>Filter by Region</option>
+        <select className='focus:outline-none' value={filter} onChange={onRegionChange} >
             <option value='all'>All</option>
             <option value='africa'>Africa</option>
             <option value='america'>America</option>

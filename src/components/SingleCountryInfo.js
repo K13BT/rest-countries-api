@@ -1,8 +1,28 @@
-import React from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const SingleCountryInfo = ({country, borders}) => {
     const navigate = useNavigate()
+    const [languages, setLanguages] = useState([])
+    const [currencies, setCurrencies] = useState([])
+
+    useEffect(() => {
+        // Languages
+        const updatedLanguages = []
+
+        for (const key in country.languages) {
+            updatedLanguages.push(key)
+        }
+        setLanguages(updatedLanguages)
+
+        // Currencies
+        const updatedCurrencies = []
+
+        for (const key in country.currencies) {
+            updatedCurrencies.push(key)
+        }
+        setCurrencies(updatedCurrencies)
+    }, [country])
 
   return (
     <section className='self-center'>
@@ -39,11 +59,11 @@ const SingleCountryInfo = ({country, borders}) => {
                 </div>
                 <div>
                     <span className='font-semibold'>Currencies: </span>
-                    <span>{country.currencies.official}</span>
+                    {currencies.map((currency, index) => <span key={index}>{currency + ', '}</span>)}
                 </div>
                 <div>
                     <span className='font-semibold'>Languages: </span>
-                    <span></span>
+                    {languages.map((lang, index) => <span key={index}>{country.languages[lang] + ', '}</span>)}
                 </div>
             </div>
         </div>
