@@ -8,11 +8,10 @@ import Loading from "../components/Loading";
 
 const Home = () => {
     const [countries, setCountries] = useState([])
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         const fetchedCountries = async () => {
-            setLoading(true)
             const fetch = await getAllCountries('all')
             setLoading(false)
             setCountries(fetch)
@@ -23,7 +22,7 @@ const Home = () => {
     // Render countries
     const RenderCountries = () => {
         return (
-            <div className="grid lg:grid-cols-4 gap-20 mx-20 my-10">
+            <div className="grid lg:grid-cols-3 xl:grid-cols-4 md:grid-cols-2 gap-20 mx-14 md:mx-20 my-10 mt-20">
             {countries.map((country, index) => <CountryCard country={country} key={index} />)}
             </div>
         )
@@ -42,10 +41,10 @@ const Home = () => {
     } 
 
   return (
-    <div className="relative">
+    <div className="min-h-screen text-base">
         <SearchFilter onSearch={onSearch} onFilter={onFilter} />
 
-        {loading ? <Loading /> : countries.length === 0 ? <NoCountryFound /> : <RenderCountries />}
+        {loading ? <Loading /> : countries.length === 0 ? <NoCountryFound /> : <RenderCountries />}   
     </div>
   )
 }

@@ -28,7 +28,7 @@ const SingleCountryInfo = ({country, borders}) => {
     <section className='self-center'>
         <h2 className='font-bold text-2xl mb-8'>{country.name.common}</h2>
 
-        <div className='flex justify-between mb-14'>
+        <div className='md:flex grid  gap-y-8 justify-between mb-14'>
             <div className='grid gap-y-2'>
                 <div>
                     <span className='font-semibold'>Native Name: </span>
@@ -72,7 +72,7 @@ const SingleCountryInfo = ({country, borders}) => {
             <span className='font-semibold mr-4'>Border Countries: </span>
             {borders.map((border, index) => 
             <button 
-                className='shadow-md shadow-slate-300 px-8 py-2 mr-2'
+                className='shadow-lg shadow-slate-200 px-8 py-2 dark:shadow-light_mode_text mr-2 mb-2 dark:bg-dark_mode_elements'
                 key={index}
                 onClick={() => navigate(`/name/${border}`)}>
                 {border}              
