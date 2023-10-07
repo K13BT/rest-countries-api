@@ -35,8 +35,8 @@ Users should be able to:
 
 ### Links
 
-- Solution URL: [Solution](https://your-solution-url.com)
-- Live Site URL: [Live site](https://your-live-site-url.com)
+- Solution URL: [Solution](https://www.frontendmentor.io/solutions/rest-countries-api-a3TKdpb2RX)
+- Live Site URL: [Live site](https://rest-countries-api-k13bt.vercel.app/)
 
 ## My process
 
